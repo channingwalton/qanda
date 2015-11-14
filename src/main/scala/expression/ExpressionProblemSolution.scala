@@ -2,6 +2,12 @@ package expression
 
 import scala.xml.NodeSeq
 
+/**
+  * This solution is based on http://i.cs.hku.hk/~bruno/oa/
+  * It starts with an initial algebra offering String and Boolean question types,
+  * then extends it by adding numbers.
+  * Implementations of the algebra to generate HTML and completion is also shown and extended.
+  */
 object ExpressionProblemSolution extends App {
 
   // The key to a question
