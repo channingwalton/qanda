@@ -69,16 +69,11 @@ object ExpressionProblemSolution extends App {
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"))
 
   // render the UI
-  val rx: HtmlAlg = new HtmlAlg() {}
+  val uiAlg: HtmlAlg = new HtmlAlg() {}
 
-  // build the UI
-  val rxUI: List[HtmlComponent] = questionnaire(rx)
-
-  val initialHtml: NodeSeq = rxUI.map(_.nodeseq).foldLeft(NodeSeq.Empty)(_ ++ _)
+  val initialHtml: NodeSeq = questionnaire(uiAlg).map(_.nodeseq).foldLeft(NodeSeq.Empty)(_ ++ _)
 
   println(initialHtml)
-
-  // now the initial presentation of the UI is in initialHtml and the updates to send the browser are in javscriptStream
 
   // calculate completion for the questionnaire
   def calcCompletion(answers: AnswerMap): CompletionAlg = new CompletionAlg {
@@ -112,13 +107,6 @@ object ExpressionProblemSolution extends App {
     def number(k: Key, q: String) = new HtmlNumber(k)
   }
 
-  val extendedHtml: ExtendedHtmlAlg = new ExtendedHtmlAlg() {}
-
-  val extendedRxUI: List[HtmlComponent] = extendedQuestionnaire(extendedHtml)
-
-  println("Extended:")
-  println(extendedRxUI.foldLeft(NodeSeq.Empty)(_ ++ _.nodeseq))
-
   // extend completion
   trait ExtendedCompletionAlg extends CompletionAlg with ExtendedQuestionAlg[Completion] {
     def number(k: Key, q: String) = qAnswer[Integer](k).fold[Completion](NotComplete(k))(_ => Complete(k))
@@ -127,6 +115,13 @@ object ExpressionProblemSolution extends App {
   def calcExtendedCompletion(answers: AnswerMap): ExtendedCompletionAlg = new ExtendedCompletionAlg {
     override def qAnswer[T](k: Key): Option[Answer[T]] = answers.get(k).asInstanceOf[Option[Answer[T]]] //yuck - whatever
   }
+
+  val extendedHtml: ExtendedHtmlAlg = new ExtendedHtmlAlg() {}
+
+  val extendedHtmlUI: List[HtmlComponent] = extendedQuestionnaire(extendedHtml)
+
+  println("Extended UI:")
+  println(extendedHtmlUI.foldLeft(NodeSeq.Empty)(_ ++ _.nodeseq))
 
   val extendedCompletionResults: List[Completion] = extendedQuestionnaire(calcExtendedCompletion(someAnswers))
 
