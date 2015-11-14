@@ -1,10 +1,10 @@
-package qanda
+package expression
 
 import rx.lang.scala.Observable
 
 import scala.xml.NodeSeq
 
-object ExpProbSolutionWithAnswers extends App {
+object ExpProbSolution extends App {
 
   // The key to a question
   type Key = String

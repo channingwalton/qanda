@@ -1,6 +1,6 @@
 organization := "channing"
 
-name := "qanda"
+name := "expression"
 
 version := "0.0.1"
 
