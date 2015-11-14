@@ -35,3 +35,5 @@ Your model should be open to extension. That is, solve the [expression problem](
 > datatype and new functions over the datatype, without recompiling
 > existing code, and while retaining static type safety (e.g., no
 > casts).
+> 
+> Phil Wadler.
