@@ -4,6 +4,11 @@ import scala.xml.NodeSeq
 
 /**
   * This is an implementation that is both obvious, straight forward, but not extensible.
+  * There is no way to share this model and allow client code to extend it.
+  *
+  * The other problem is that a questionnaire, a list of questions, ends up having
+  * the type List[Question[_]] that requires type rediscovery through pattern matching
+  * or fold. Code ends up being littered with pattern matches - is that a bad thing?
   */
 object BasicModel {
 
