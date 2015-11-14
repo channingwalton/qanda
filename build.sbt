@@ -30,6 +30,5 @@ libraryDependencies ++= Seq (
   "org.scalaz" %% "scalaz-core" % "7.1.5",
   "org.scala-lang.modules" %% "scala-xml" % "1.0.3",
   "org.scala-lang.modules" %% "scala-java8-compat" % "0.5.0" % "compile",
-  "com.chuusai" %% "shapeless" % "2.2.5" % "compile",
-  "io.reactivex" %% "rxscala" % "0.23.1" % "compile"
+  "com.chuusai" %% "shapeless" % "2.2.5" % "compile"
 )

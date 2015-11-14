@@ -1,10 +1,8 @@
 package expression
 
-import rx.lang.scala.Observable
-
 import scala.xml.NodeSeq
 
-object ExpProbSolution extends App {
+object ExpressionProblemSolution extends App {
 
   // The key to a question
   type Key = String
@@ -19,54 +17,24 @@ object ExpProbSolution extends App {
     def boolean(k: Key, q: String): E
   }
 
-  // **********
-  // A Rx (reactive) UI component that consumes a stream of answers to render
-  // and emits JsCmds from the UI component to push to a browser via comet
-  // see https://github.com/channingwalton/rxlift
-  trait JsCmd
-  trait RxComponent {
-    // necessary to use an abstract type to avoid having to make Eval covariant - try it and see
-    type T
-
-    // This is the incoming stream of answer that should be mapped to produce the jscmd stream below
-    def in: Observable[Option[Answer[T]]]
-
+  // An Html component that renders a question
+  //
+  trait HtmlComponent {
     def nodeseq: NodeSeq
-
-    def emitted: Observable[Option[Answer[T]]]
-
-    def jscmd: Observable[JsCmd]
   }
 
-  class RxInput(key: Key, val in: Observable[Option[Answer[String]]]) extends RxComponent {
-    type T = String
-
+  class HtmlInput(key: Key) extends HtmlComponent {
     override def nodeseq: NodeSeq = <input id={key.toString}></input>
-
-    override def jscmd: Observable[JsCmd] = Observable.empty
-
-    override def emitted: Observable[Option[Answer[String]]] = Observable.empty
   }
 
-  class RxCheckbox(key: Key, val in: Observable[Option[Answer[Boolean]]]) extends RxComponent {
-    type T = Boolean
-
+  class HtmlCheckbox(key: Key) extends HtmlComponent {
     override def nodeseq: NodeSeq = <checkbox id={key.toString}></checkbox>
-
-    override def jscmd: Observable[JsCmd] = Observable.empty
-
-    override def emitted: Observable[Option[Answer[Boolean]]] = Observable.empty
   }
 
-  // a QuestionAlg that can produce RxComponents
-  trait RxAlg extends QuestionAlg[RxComponent] {
-
-    // an observable stream of answers for a given key
-    def answers[T](k: Key): Observable[Option[Answer[T]]]
-
-    def string(k: Key, q: String) = new RxInput(k, answers(k))
-
-    def boolean(k: Key, q: String) = new RxCheckbox(k, answers(k))
+  // a QuestionAlg that can produce HtmlComponents
+  trait HtmlAlg extends QuestionAlg[HtmlComponent] {
+    def string(k: Key, q: String) = new HtmlInput(k)
+    def boolean(k: Key, q: String) = new HtmlCheckbox(k)
   }
 
   // **********
@@ -101,16 +69,12 @@ object ExpProbSolution extends App {
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"))
 
   // render the UI
-  val rx: RxAlg = new RxAlg() {
-    // in practice the observable will be a stream coming from the persistence
-    override def answers[T](k: Key): Observable[Option[Answer[T]]] = Observable.empty
-  }
+  val rx: HtmlAlg = new HtmlAlg() {}
 
   // build the UI
-  val rxUI: List[RxComponent] = questionnaire(rx)
+  val rxUI: List[HtmlComponent] = questionnaire(rx)
 
   val initialHtml: NodeSeq = rxUI.map(_.nodeseq).foldLeft(NodeSeq.Empty)(_ ++ _)
-  val javascriptStream = rxUI.map(_.jscmd).reduce(_.merge(_))
 
   println(initialHtml)
 
@@ -140,26 +104,17 @@ object ExpProbSolution extends App {
   }
 
   // render the extended UI
-  class RxNumber(key: Key, val in: Observable[Option[Answer[Integer]]]) extends RxComponent {
-    type T = Integer
-
+  class HtmlNumber(key: Key) extends HtmlComponent {
     override def nodeseq: NodeSeq = <numberWidget id={key.toString}></numberWidget>
-
-    override def jscmd: Observable[JsCmd] = Observable.empty
-
-    override def emitted: Observable[Option[Answer[Integer]]] = Observable.empty
   }
 
-  trait ExtendedRxAlg extends RxAlg with ExtendedQuestionAlg[RxComponent] {
-    def number(k: Key, q: String) = new RxNumber(k, answers(k))
+  trait ExtendedHtmlAlg extends HtmlAlg with ExtendedQuestionAlg[HtmlComponent] {
+    def number(k: Key, q: String) = new HtmlNumber(k)
   }
 
-  val extendedRx: ExtendedRxAlg = new ExtendedRxAlg() {
-    // in practice the observable will be a stream coming from the persistence
-    override def answers[T](k: Key): Observable[Option[Answer[T]]] = Observable.empty
-  }
+  val extendedHtml: ExtendedHtmlAlg = new ExtendedHtmlAlg() {}
 
-  val extendedRxUI: List[RxComponent] = extendedQuestionnaire(extendedRx)
+  val extendedRxUI: List[HtmlComponent] = extendedQuestionnaire(extendedHtml)
 
   println("Extended:")
   println(extendedRxUI.foldLeft(NodeSeq.Empty)(_ ++ _.nodeseq))

@@ -1,11 +1,11 @@
 # Questions and Answers
 
-At a recent project, my team needed to produce a questionnaire customers needed to fill in to open bank accounts. 
-It had to support a number of different types of questions, with validation rules and a mechanism to establish
+At a recent project, my team produced a questionnaire customers needed to fill in to open bank accounts. 
+It supported a number of different types of questions, with validation rules and a mechanism to establish
 how _complete_ the questionnaire was.
 
 It became apparent that this is not as straight forward as it first seems, _if you want a type-safe, extensible model_.
-It also is a fun playground to experiment with a number of modelling ideas.
+Everyone felt certain there was a better way. This project is an exploration of different ways to model the problem.
 
 ## The Problem
 
