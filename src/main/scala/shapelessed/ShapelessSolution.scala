@@ -1,7 +1,6 @@
 package shapelessed
 
 import shapeless._
-import poly._
 import shapeless.ops.hlist.Mapper
 
 import scala.xml.NodeSeq
@@ -23,11 +22,13 @@ object ShapelessSolution extends App {
   type AnswerMap = Map[Key, Answer[_]]
 
   // render as NodeSeq using a polymorphic function
-  object HtmlRenderer extends Poly1 {
+  trait HtmlRenderer extends Poly1 {
     implicit def caseString = at[StringQuestion]((x: StringQuestion) ⇒ <input id={x.k}></input>)
 
     implicit def caseBoolean = at[BooleanQuestion]((x: BooleanQuestion) ⇒ <checkbox id={x.k.toString}></checkbox>)
+  }
 
+  object HtmlRenderer extends HtmlRenderer {
     // cheeky putting this here but it makes it easier to use
     def apply[L <: HList](list: L)(implicit m: Mapper[HtmlRenderer.type, L]): m.Out = list.map(HtmlRenderer)
   }
@@ -71,6 +72,17 @@ object ShapelessSolution extends App {
 
   println(results)
 
-  // But can it be extended?
 
+  // And we can extend it!
+
+  case class NumberQuestion(k: Key, question: String) extends Question[Integer]
+
+  object ExtendedHtmlRenderer extends HtmlRenderer {
+    implicit def caseNumber = at[NumberQuestion]((x: NumberQuestion) ⇒ <numberWidget id={x.k}></numberWidget>)
+    def apply[L <: HList](list: L)(implicit m: Mapper[ExtendedHtmlRenderer.type, L]): m.Out = list.map(ExtendedHtmlRenderer)
+  }
+
+  val extendedQuestions = bQuestion :: tQuestion :: NumberQuestion("c", "How much?") :: HNil
+  val extendedNodeSeq = ExtendedHtmlRenderer(extendedQuestions).toList.foldLeft(NodeSeq.Empty)(_ ++_)
+  println(extendedNodeSeq)
 }
