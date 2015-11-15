@@ -57,7 +57,7 @@ object ShapelessSolution extends App {
 
   // testing
 
-  // A questionnaire is imply an HList
+  // A questionnaire is simply an HList
   val bQuestion: BooleanQuestion = BooleanQuestion("a", "Yes or no?")
   val tQuestion: StringQuestion = StringQuestion("b", "What's your answer?")
 
