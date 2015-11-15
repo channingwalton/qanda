@@ -23,24 +23,10 @@ object ExpressionProblemSolution extends App {
     def boolean(k: Key, q: String): E
   }
 
-  // An Html component that renders a question
-  //
-  trait HtmlComponent {
-    def nodeseq: NodeSeq
-  }
-
-  class HtmlInput(key: Key) extends HtmlComponent {
-    override def nodeseq: NodeSeq = <input id={key.toString}></input>
-  }
-
-  class HtmlCheckbox(key: Key) extends HtmlComponent {
-    override def nodeseq: NodeSeq = <checkbox id={key.toString}></checkbox>
-  }
-
-  // a QuestionAlg that can produce HtmlComponents
-  trait HtmlAlg extends QuestionAlg[HtmlComponent] {
-    def string(k: Key, q: String) = new HtmlInput(k)
-    def boolean(k: Key, q: String) = new HtmlCheckbox(k)
+  // a QuestionAlg that can produce Html
+  trait HtmlAlg extends QuestionAlg[NodeSeq] {
+    def string(k: Key, q: String) = <input id={k.toString}></input>
+    def boolean(k: Key, q: String) = <checkbox id={k.toString}></checkbox>
   }
 
   // **********
@@ -77,7 +63,7 @@ object ExpressionProblemSolution extends App {
   // render the UI
   val uiAlg: HtmlAlg = new HtmlAlg() {}
 
-  val initialHtml: NodeSeq = questionnaire(uiAlg).map(_.nodeseq).foldLeft(NodeSeq.Empty)(_ ++ _)
+  val initialHtml: NodeSeq = questionnaire(uiAlg).foldLeft(NodeSeq.Empty)(_ ++ _)
 
   println(initialHtml)
 
@@ -105,12 +91,8 @@ object ExpressionProblemSolution extends App {
   }
 
   // render the extended UI
-  class HtmlNumber(key: Key) extends HtmlComponent {
-    override def nodeseq: NodeSeq = <numberWidget id={key.toString}></numberWidget>
-  }
-
-  trait ExtendedHtmlAlg extends HtmlAlg with ExtendedQuestionAlg[HtmlComponent] {
-    def number(k: Key, q: String) = new HtmlNumber(k)
+  trait ExtendedHtmlAlg extends HtmlAlg with ExtendedQuestionAlg[NodeSeq] {
+    def number(k: Key, q: String) = <numberEditor id={k.toString}></numberEditor>
   }
 
   // extend completion
@@ -124,10 +106,10 @@ object ExpressionProblemSolution extends App {
 
   val extendedHtml: ExtendedHtmlAlg = new ExtendedHtmlAlg() {}
 
-  val extendedHtmlUI: List[HtmlComponent] = extendedQuestionnaire(extendedHtml)
+  val extendedHtmlUI: List[NodeSeq] = extendedQuestionnaire(extendedHtml)
 
   println("Extended UI:")
-  println(extendedHtmlUI.foldLeft(NodeSeq.Empty)(_ ++ _.nodeseq))
+  println(extendedHtmlUI.foldLeft(NodeSeq.Empty)(_ ++ _))
 
   val extendedCompletionResults: List[Completion] = extendedQuestionnaire(calcExtendedCompletion(someAnswers))
 

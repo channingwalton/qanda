@@ -3,7 +3,7 @@ package basic
 import scala.xml.NodeSeq
 
 /**
-  * This is an implementation that is both obvious, straight forward, but not extensible.
+  * This is an implementation that is both obvious and straight forward, but not extensible.
   * There is no way to share this model and allow client code to extend it.
   *
   * The other problem is that a questionnaire, a list of questions, ends up having
