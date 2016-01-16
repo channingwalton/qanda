@@ -25,8 +25,8 @@ object ExpressionProblemSolution extends App {
 
   // a QuestionAlg that can produce Html
   trait HtmlAlg extends QuestionAlg[NodeSeq] {
-    def string(k: Key, q: String) = <input id={k.toString}></input>
-    def boolean(k: Key, q: String) = <checkbox id={k.toString}></checkbox>
+    def string(k: Key, q: String): NodeSeq = <input id={k.toString}></input>
+    def boolean(k: Key, q: String): NodeSeq = <checkbox id={k.toString}></checkbox>
   }
 
   // **********
@@ -43,9 +43,9 @@ object ExpressionProblemSolution extends App {
   trait CompletionAlg extends QuestionAlg[Completion] {
     def qAnswer[T](k: Key): Option[Answer[T]]
 
-    def string(k: Key, q: String) = qAnswer[String](k).fold[Completion](NotComplete(k))(_ => Complete(k))
+    def string(k: Key, q: String): Completion = qAnswer[String](k).fold[Completion](NotComplete(k))(_ => Complete(k))
 
-    def boolean(k: Key, q: String) = qAnswer[Boolean](k).fold[Completion](NotComplete(k))(_ => Complete(k))
+    def boolean(k: Key, q: String): Completion = qAnswer[Boolean](k).fold[Completion](NotComplete(k))(_ => Complete(k))
   }
 
 
@@ -92,12 +92,12 @@ object ExpressionProblemSolution extends App {
 
   // render the extended UI
   trait ExtendedHtmlAlg extends HtmlAlg with ExtendedQuestionAlg[NodeSeq] {
-    def number(k: Key, q: String) = <numberEditor id={k.toString}></numberEditor>
+    def number(k: Key, q: String): NodeSeq = <numberEditor id={k.toString}></numberEditor>
   }
 
   // extend completion
   trait ExtendedCompletionAlg extends CompletionAlg with ExtendedQuestionAlg[Completion] {
-    def number(k: Key, q: String) = qAnswer[Integer](k).fold[Completion](NotComplete(k))(_ => Complete(k))
+    def number(k: Key, q: String): Completion = qAnswer[Integer](k).fold[Completion](NotComplete(k))(_ => Complete(k))
   }
 
   def calcExtendedCompletion(answers: AnswerMap): ExtendedCompletionAlg = new ExtendedCompletionAlg {
