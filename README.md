@@ -42,3 +42,5 @@ Your model should be open to extension. That is, solve the [expression problem](
 
 I, and several others, would be very interested to see solutions. So please send pull requests, just add a new package containing
 code of course, and some documentation.
+
+-- Channing
