@@ -25,7 +25,7 @@ The model must support the following:
   * inter question validation, eg
     * current address does not match the address you gave on your identity document
     * You haven't given at least 3 years address history
-  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided to far 
+  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided so far 
 
 ## Oh, and one more thing …
 
