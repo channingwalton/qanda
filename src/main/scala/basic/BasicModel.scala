@@ -25,8 +25,8 @@ object BasicModel {
 
   // Rendering the questionnaire by pattern matching
   // we can assume that form submissions
-  def html[T](q: Question[T]): NodeSeq =
-    q match {
+  def html[T](question: Question[T]): NodeSeq =
+    question match {
       case StringQuestion(k, q) => <span>{q}:</span> ++ <input id={k} />
       case BooleanQuestion(k, q) => <span>{q}:</span> ++ <checkbox id={k} />
     }

@@ -11,21 +11,21 @@ Everyone felt certain there was a better way. This project is an exploration of 
 
 The model must support the following:
 
-1. Questions whose answers are of different types: Strings, Dates, Booleans, etc.
-2. Given a list of questions of different types, produce different representations of the questionnaire:
+1. Questions whose answers are of different types: Strings, Dates, Booleans, Address, Phone Number, etc. Note that these are not all primitives.
+2. Questions can be optional
+3. Questions must support multiple Answers - eg. phone numbers
+4. A measure of how complete the questionnaire is - all non-optional questions must be answered
+5. Validation rules
+  * eg. string longer than a certain length, age greater than 16, etc.
+  * inter question validation:
+    * current address does not match the address you gave on your identity document
+    * You haven't given at least 3 years address history
+  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided so far
+6. Given a list of questions of different types, produce different representations of the questionnaire:
   * pretty print
   * ui components (as html)
   * json
   * etc.
-3. Questions can be optional
-4. A measure of how complete the questionnaire is - all non-optional questions must be answered
-5. Validation rules
-  * string longer than a certain length
-  * individual questions such as dates before/after some date
-  * inter question validation, eg
-    * current address does not match the address you gave on your identity document
-    * You haven't given at least 3 years address history
-  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided so far 
 
 ## Oh, and one more thing …
 

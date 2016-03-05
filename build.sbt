@@ -27,7 +27,7 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq (
-  "org.spire-math" %% "cats" % "0.3.0",
+  "org.typelevel" %% "cats" % "0.4.1",
   "org.scala-lang.modules" %% "scala-xml" % "1.0.3",
   "org.scala-lang.modules" %% "scala-java8-compat" % "0.5.0" % "compile",
   "com.chuusai" %% "shapeless" % "2.2.5" % "compile"
