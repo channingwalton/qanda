@@ -13,11 +13,11 @@ The model must support the following:
 
 1. Questions whose answers are of different types: Strings, Dates, Booleans, Address, Phone Number, etc. Note that these are not all primitives.
 2. Questions can be optional
-3. Questions must support multiple Answers - eg. phone numbers
+3. Questions must support multiple Answers - eg. set of phone numbers, address history
 4. A measure of how complete the questionnaire is - all non-optional questions must be answered
-5. Validation rules
+5. Validation rules:
   * string longer than a certain length
-  * age greater than 16, etc.
+  * age greater than 16
   * inter question validation:
     * current address does not match the address you gave on your identity document
     * You haven't given at least 3 years address history
