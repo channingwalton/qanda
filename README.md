@@ -16,7 +16,8 @@ The model must support the following:
 3. Questions must support multiple Answers - eg. phone numbers
 4. A measure of how complete the questionnaire is - all non-optional questions must be answered
 5. Validation rules
-  * eg. string longer than a certain length, age greater than 16, etc.
+  * string longer than a certain length
+  * age greater than 16, etc.
   * inter question validation:
     * current address does not match the address you gave on your identity document
     * You haven't given at least 3 years address history
@@ -25,7 +26,7 @@ The model must support the following:
   * pretty print
   * ui components (as html)
   * json
-  * etc.
+  * all the protocols
 
 ## Oh, and one more thing …
 
