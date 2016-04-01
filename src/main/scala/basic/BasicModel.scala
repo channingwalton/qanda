@@ -1,5 +1,7 @@
 package basic
 
+import model.Address
+
 import scala.xml.NodeSeq
 
 /**
@@ -20,8 +22,9 @@ object BasicModel {
   }
   case class StringQuestion(k: Key, question: String) extends Question[String]
   case class BooleanQuestion(k: Key, question: String) extends Question[Boolean]
+  case class AddressQuestion(k: Key, question: String) extends Question[Address]
 
-  val questionnaire: List[Question[_]] = StringQuestion("a", "Who are you?") :: BooleanQuestion("b", "Happy?") :: Nil
+  val questionnaire: List[Question[_]] = StringQuestion("a", "Who are you?") :: BooleanQuestion("b", "Happy?") :: AddressQuestion("c", "Where do you live?") :: Nil
 
   // Rendering the questionnaire by pattern matching
   // we can assume that form submissions
@@ -29,6 +32,7 @@ object BasicModel {
     question match {
       case StringQuestion(k, q) => <span>{q}:</span> ++ <input id={k} />
       case BooleanQuestion(k, q) => <span>{q}:</span> ++ <checkbox id={k} />
+      case AddressQuestion(k, q) => <span>{q}:</span> ++ <input id={s"$k-line1"} /> ++ <input id={s"$k-line2"} /> ++ <input id={s"$k-etc"} />
     }
 
   val ui: NodeSeq = questionnaire.map(html(_)).foldLeft(NodeSeq.Empty)(_ ++ _)
