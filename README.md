@@ -4,7 +4,7 @@ At a recent project, my team produced a questionnaire customers needed to fill i
 It supported a number of different types of questions, with validation rules and a mechanism to establish
 how _complete_ the questionnaire was.
 
-It became apparent that this is not as straight forward as it first seems, _if you want a type-safe, extensible model_.
+It became apparent that this is not as straightforward as it first seems _if you want a type-safe, extensible model_.
 Everyone felt certain there was a better way. This project is an exploration of different ways to model the problem.
 
 ## The Problem
@@ -18,14 +18,14 @@ The model must support the following:
 5. Validation rules:
   * string longer than a certain length
   * age greater than 16
-  * inter question validation:
-    * current address does not match the address you gave on your identity document
+  * inter-question validation:
+    * the current address does not match the address you gave on your identity document
     * You haven't given at least 3 years address history
   * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided so far
 6. Given a list of questions of different types, produce different representations of the questionnaire:
   * pretty print
-  * ui components (as html)
-  * json
+  * UI components (as HTML)
+  * JSon
   * all the protocols
 
 ## Oh, and one more thing …
@@ -41,7 +41,7 @@ Your model should be open to extension. That is, solve the [expression problem](
 
 # Contributions
 
-I, and several others, would be very interested to see solutions. So please send pull requests, just add a new package containing
+I, and several others would be very interested to see solutions. So please send pull requests, just add a new package containing
 code of course, and some documentation.
 
 -- Channing
