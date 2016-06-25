@@ -4,9 +4,7 @@ name := "expression"
 
 version := "0.0.1"
 
-scalaVersion := "2.11.7"
-
-scalaBinaryVersion := "2.11"
+scalaVersion := "2.11.8"
 
 resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases" at "https://oss.sonatype.org/content/repositories/releases",
@@ -27,7 +25,7 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq (
-  "org.typelevel" %% "cats" % "0.4.1",
+  "org.typelevel" %% "cats" % "0.6.0",
   "org.scala-lang.modules" %% "scala-xml" % "1.0.3",
   "org.scala-lang.modules" %% "scala-java8-compat" % "0.5.0" % "compile",
   "com.chuusai" %% "shapeless" % "2.2.5" % "compile"
