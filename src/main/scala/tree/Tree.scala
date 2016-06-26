@@ -15,16 +15,21 @@ import cats.syntax.xor._
   * and answers can be found via a path.
   *
   * This solution is extensible since answers are composites of
-  * simple primitives. But, the huge drawback is a lack of rich types.
+  * simple primitives. But, the huge drawback is a lack of rich types such
+  * as Address or PhoneNumber.
+  *
+  * Unlike the other solutions, the answers to the questionnaire are
+  * embedded in the questionnaire itself, there is no collection of
+  * answers.
   */
 object Tree extends App {
 
-  // Answers are only primitive types
+  // Answers are only primitive types - we will just have String and Int for now
   sealed trait Answer extends Product with Serializable
 
-  case class StringAnswer(v: String) extends Answer
+  final case class StringAnswer(v: String) extends Answer
 
-  case class IntAnswer(v: Int) extends Answer
+  final case class IntAnswer(v: Int) extends Answer
 
   type Element = Option[Answer] Xor Vector[QNode]
 
@@ -56,6 +61,9 @@ object Tree extends App {
       case _ ⇒ None
     }
 
+  /*
+   *  string representation of a QNode
+   */
   def show(questionnaire: QNode): String = {
     def s(q: QNode, d: String): String =
       d + q.text + {
@@ -68,7 +76,9 @@ object Tree extends App {
     s(questionnaire, "")
   }
 
-  val address =
+  ////// An Example
+
+  val address: QNode =
     QNode("address", "Address",
       Right(
         Vector(
@@ -79,18 +89,19 @@ object Tree extends App {
       )
     )
 
-  val firstName = QNode("firstName", "First name", Left(None))
-  val lastName = QNode("lastName", "Last name", Left(None))
-  val age = QNode("age", "Age", Left(None))
+  val firstName: QNode = QNode("firstName", "First name", Left(None))
+  val lastName: QNode = QNode("lastName", "Last name", Left(None))
+  val age: QNode = QNode("age", "Age", Left(None))
 
-  val questionnaire =
+  val questionnaire: QNode =
     QNode(
       "personalQuestions",
       "Personal Questions",
       Right(Vector(firstName, lastName, address, age))
     )
 
-
+  // answer some questions - the for comprehension is convenience really, it
+  // could be done line by line
   val answered: Option[QNode] =
     for {
       a1 ← answer(questionnaire, "personalQuestions", "address", "line1")(StringAnswer("14 Orchid Drive"))
@@ -99,6 +110,7 @@ object Tree extends App {
     } yield a3
 
   println(answered.fold("No answer")(show))
+
   /*
   Personal Questions
    First name  StringAnswer(Channing)
@@ -109,5 +121,8 @@ object Tree extends App {
     From
    Age  IntAnswer(48)
    */
+
+
+  // TODO completion
 }
 

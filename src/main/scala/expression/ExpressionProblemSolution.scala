@@ -32,12 +32,12 @@ object ExpressionProblemSolution extends App {
   // **********
   // How complete is the questionnaire?
   //
-  sealed trait Completion {
+  sealed trait Completion extends Product with Serializable {
     def key: Key
   }
 
-  case class Complete(key: Key) extends Completion
-  case class NotComplete(key: Key) extends Completion
+  final case class Complete(key: Key) extends Completion
+  final case class NotComplete(key: Key) extends Completion
 
   // a simple completion algorithm that requires answers to all questions
   trait CompletionAlg extends QuestionAlg[Completion] {

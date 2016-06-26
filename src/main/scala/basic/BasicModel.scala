@@ -9,8 +9,9 @@ import scala.xml.NodeSeq
   * There is no way to share this model and allow client code to extend it.
   *
   * The other problem is that a questionnaire, a list of questions, ends up having
-  * the type List[Question[_]] that requires type rediscovery through pattern matching
-  * or fold. Code ends up being littered with pattern matches - is that a bad thing?
+  * the type List[Question[_]] and so type rediscovery through pattern matching
+  * or folding is necessary. Code ends up being littered with pattern matches -
+  * is that a bad thing?
   */
 object BasicModel {
 

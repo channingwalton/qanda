@@ -27,6 +27,7 @@ The model must support the following:
   * UI components (as HTML)
   * JSon
   * all the protocols
+&. Repeating questions - some questions need to repeat until some condition is met. For example, requiring 3 years of address history.
 
 ## Oh, and one more thing …
 
