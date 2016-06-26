@@ -31,7 +31,9 @@ object Tree extends App {
 
   final case class IntAnswer(v: Int) extends Answer
 
-  type Element = Option[Answer] Xor Vector[QNode]
+  final case class Forest(nodes: Vector[QNode], repeater: Element => Boolean = _ => false)
+
+  type Element = Option[Answer] Xor Forest
 
   case class QNode(key: String, text: String, element: Element)
 
@@ -47,7 +49,7 @@ object Tree extends App {
       case a :: b if node.key == a ⇒
         node.element match {
           case Left(_) ⇒ None // value present at this incomplete path location
-          case Right(qnodes) ⇒
+          case Right(Forest(qnodes, repeater)) ⇒
             val updated = for {
               q ← qnodes
               u = answer(q, b: _*)(value).getOrElse(q)
@@ -56,7 +58,7 @@ object Tree extends App {
             if (updated == qnodes)
               None
             else
-              Some(node.copy(element = Right(updated)))
+              Some(node.copy(element = Right(Forest(updated, repeater))))
         }
       case _ ⇒ None
     }
@@ -70,7 +72,7 @@ object Tree extends App {
         q.element match {
           case Left(Some(ans)) ⇒ d + " " + ans.toString
           case Left(_) ⇒ ""
-          case Right(questions) ⇒ "\n" + questions.map(q ⇒ s(q, d + " ")).mkString("\n")
+          case Right(Forest(questions, _)) ⇒ "\n" + questions.map(q ⇒ s(q, d + " ")).mkString("\n")
         }
       }
     s(questionnaire, "")
@@ -80,13 +82,14 @@ object Tree extends App {
 
   val address: QNode =
     QNode("address", "Address",
-      Right(
-        Vector(
-          QNode("line1", "Line 1", Left(None)),
-          QNode("line2", "Line 2", Left(None)),
-          QNode("fromDate", "From", Left(None))
-        )
-      )
+          Right(
+            Forest(
+             Vector(
+               QNode("line1", "Line 1", Left(None)),
+               QNode("line2", "Line 2", Left(None)),
+               QNode("fromDate", "From", Left(None))
+             ))
+          )
     )
 
   val firstName: QNode = QNode("firstName", "First name", Left(None))
@@ -97,7 +100,7 @@ object Tree extends App {
     QNode(
       "personalQuestions",
       "Personal Questions",
-      Right(Vector(firstName, lastName, address, age))
+      Right(Forest(Vector(firstName, lastName, address, age)))
     )
 
   // answer some questions - the for comprehension is convenience really, it
@@ -121,6 +124,8 @@ object Tree extends App {
     From
    Age  IntAnswer(48)
    */
+
+  // Repeating questions - tricky one
 
 
   // TODO completion
