@@ -5,13 +5,13 @@ import cats.data.Xor.{Left, Right}
 import cats.syntax.xor._
 
 /**
-  * Here the questionnaire is represented as a forest, QNode,
+  * Here the questionnaire is represented as a tree, QNode,
   * whose leaves are primitive types (String, Ints, etc.).
   *
-  * Nodes of the forect are either an optional value, an answer,
+  * Nodes of the tree are either an optional value, an answer,
   * or a Vector of QNodes.
   *
-  * Each node in the forest has a key, so that parts of a questionnaire
+  * Each node in the tree has a key, so that parts of a questionnaire
   * and answers can be found via a path.
   *
   * This solution is extensible since answers are composites of
@@ -31,37 +31,42 @@ object Tree extends App {
 
   final case class IntAnswer(v: Int) extends Answer
 
-  final case class Forest(nodes: Vector[QNode], repeater: Element => Boolean = _ => false)
+  type Element = Option[Answer] Xor Children
 
-  type Element = Option[Answer] Xor Forest
+  final case class Children(nodes: Vector[QNode])
 
-  case class QNode(key: String, text: String, element: Element)
+  case class QNode(key: String, text: String, element: Element, trans: Children => Children = identity) {
+    def transform: QNode =
+      copy(element = element.map(trans))
+  }
 
   /**
-    * Answer a question at a path under the given qnode
+    * Answer a question at a path under the given qnode and apply node.trans to the result
     *
     * @return None if the path did not match or Some modified questionnaire
     */
-  def answer(node: QNode, path: String*)(value: Answer): Option[QNode] =
+  def answer(node: QNode, path: String*)(value: Answer): Option[QNode] = {
     path.toList match {
-      case s :: Nil if node.key == s ⇒ Some(node.copy(element = Some(value).left))
+      case s :: Nil if node.key == s ⇒
+        Some(node.copy(element = Some(value).left))
       case s :: Nil ⇒ None
-      case a :: b if node.key == a ⇒
+      case a :: subpath if node.key == a ⇒
         node.element match {
-          case Left(_) ⇒ None // value present at this incomplete path location
-          case Right(Forest(qnodes, repeater)) ⇒
+          case Left(_) ⇒ None // there is an answer present at this incomplete path location which is a fail
+          case Right(Children(qnodes)) ⇒
             val updated = for {
               q ← qnodes
-              u = answer(q, b: _*)(value).getOrElse(q)
+              u = answer(q, subpath: _*)(value).getOrElse(q)
             } yield u
 
             if (updated == qnodes)
               None
             else
-              Some(node.copy(element = Right(Forest(updated, repeater))))
+              Some(node.copy(element = Right(Children(updated))))
         }
       case _ ⇒ None
     }
+  }.map(_.transform)
 
   /*
    *  string representation of a QNode
@@ -72,7 +77,7 @@ object Tree extends App {
         q.element match {
           case Left(Some(ans)) ⇒ d + " " + ans.toString
           case Left(_) ⇒ ""
-          case Right(Forest(questions, _)) ⇒ "\n" + questions.map(q ⇒ s(q, d + " ")).mkString("\n")
+          case Right(Children(questions)) ⇒ "\n" + questions.map(q ⇒ s(q, d + " ")).mkString("\n")
         }
       }
     s(questionnaire, "")
@@ -83,7 +88,7 @@ object Tree extends App {
   val address: QNode =
     QNode("address", "Address",
           Right(
-            Forest(
+            Children(
              Vector(
                QNode("line1", "Line 1", Left(None)),
                QNode("line2", "Line 2", Left(None)),
@@ -100,7 +105,7 @@ object Tree extends App {
     QNode(
       "personalQuestions",
       "Personal Questions",
-      Right(Forest(Vector(firstName, lastName, address, age)))
+      Right(Children(Vector(firstName, lastName, address, age)))
     )
 
   // answer some questions - the for comprehension is convenience really, it
@@ -125,8 +130,29 @@ object Tree extends App {
    Age  IntAnswer(48)
    */
 
-  // Repeating questions - tricky one
+  // Repeating questions
+  val phone: QNode = QNode("phone", "Phone Number", Left(None))
+  val repQuestionnaire: QNode =
+  QNode(
+    "numbers",
+    "Phone numbers",
+    Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
+    // This function appends a new phone number question to the children
+    children ⇒ Children(children.nodes :+ QNode("phone" + (children.nodes.length + 1), "Phone Number", Left(None)))
+  )
 
+  val repAnswered = for {
+    a1 ← answer(repQuestionnaire, "numbers", "phone1")(StringAnswer("123"))
+    a2 ← answer(a1, "numbers", "phone2")(StringAnswer("456"))
+  } yield a2
+
+  println(repAnswered.fold("No answer")(show))
+  /*
+  Phone numbers
+   Phone Number  StringAnswer(123)
+   Phone Number  StringAnswer(456)
+   Phone Number
+   */
 
   // TODO completion
 }
