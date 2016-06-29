@@ -43,7 +43,7 @@ object Tree extends App {
   /**
     * Answer a question at a path under the given qnode and apply node.trans to the result
     *
-    * @return None if the path did not match or Some modified questionnaire
+    * @return None if the path did not match or there was no change in the answer, or Some modified questionnaire
     */
   def answer(node: QNode, path: String*)(value: Answer): Option[QNode] = {
     path.toList match {
@@ -154,6 +154,6 @@ object Tree extends App {
    Phone Number
    */
 
-  // TODO completion
+  // TODO completion - probably a set of functions of paths
 }
 
