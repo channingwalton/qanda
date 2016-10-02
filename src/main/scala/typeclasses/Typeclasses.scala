@@ -89,6 +89,7 @@ object Typeclasses {
     }
   }
 
+  // Herein lies the most primitive types of questions and a questionnaire
   object BasicQuestionnaire {
     import Core._
     import Basics._
@@ -102,7 +103,7 @@ object Typeclasses {
     val completions: List[Completion] = CompletionCalculator.calculate(questionnaire, Map("a" → Answer(who, "Channing")))
   }
 
-  // now extend it
+  // Here the basics are extended
   object Extensions {
     import Core._
 
@@ -113,9 +114,9 @@ object Typeclasses {
       implicit object AddressAsHtml extends AsHtml[AddressQuestion] {
         override def asHtml(a: AddressQuestion): NodeSeq =
           <span>
-            {a.question}
-            :</span> ++ <input id={s"${a.k}-line1"}/> ++ <input id={s"${a.k}-line2"}/> ++ <input id={s"${a.k}-etc"}/>
+            {a.question}:</span> ++ <input id={s"${a.k}-line1"}/> ++ <input id={s"${a.k}-line2"}/> ++ <input id={s"${a.k}-etc"}/>
       }
+
       implicit object AddressCompletion extends CompletionCalculator[AddressQuestion] {
         override def calculate(q: AddressQuestion, answerMap: AnswerMap): Completion =
           if (answerMap.contains(q.k)) Complete(q.k) else NotComplete(q.k)
