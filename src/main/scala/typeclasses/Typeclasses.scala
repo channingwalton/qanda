@@ -129,7 +129,7 @@ object Typeclasses {
     import BasicQuestionnaire._
     import Extensions._
 
-    val extendedQuestionnaire = QContext(AddressQuestion("c", "Where do you live?")) :: questionnaire
+    val extendedQuestionnaire: List[QContext[_]] = QContext(AddressQuestion("c", "Where do you live?")) :: questionnaire
 
     val extendedUI: NodeSeq = extendedQuestionnaire.map(_.renderHtml).foldLeft(NodeSeq.Empty)(_ ++ _)
   }
