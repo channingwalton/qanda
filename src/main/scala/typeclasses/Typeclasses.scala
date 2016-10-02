@@ -1,5 +1,7 @@
 package typeclasses
 
+import model.Address
+
 import scala.xml.NodeSeq
 
 /**
@@ -14,7 +16,7 @@ object Typeclasses {
   object Basics {
 
     // unsealed trait for question
-    trait Question extends Product with Serializable {
+    trait Question[T] extends Product with Serializable {
       def k: Key
       def question: String
     }
@@ -25,7 +27,7 @@ object Typeclasses {
     }
 
     // questions and companions
-    final case class StringQuestion(k: Key, question: String) extends Question
+    final case class StringQuestion(k: Key, question: String) extends Question[String]
 
     object StringQuestion {
 
@@ -38,7 +40,7 @@ object Typeclasses {
 
     }
 
-    final case class BooleanQuestion(k: Key, question: String) extends Question
+    final case class BooleanQuestion(k: Key, question: String) extends Question[Boolean]
 
     object BooleanQuestion {
 
@@ -54,7 +56,7 @@ object Typeclasses {
 
   import Basics._
   // build a questionnaire with instance of the typeclass instances required
-  final case class QContext[Q <: Question](q: Q)(implicit html: AsHtml[Q]) {
+  final case class QContext[Q <: Question[_]](q: Q)(implicit html: AsHtml[Q]) {
     def renderHtml: NodeSeq = html.asHtml(q)
   }
 
@@ -68,7 +70,7 @@ object Typeclasses {
   // now extend it
   object Extensions {
     import Basics._
-    final case class AddressQuestion(k: Key, question: String) extends Question
+    final case class AddressQuestion(k: Key, question: String) extends Question[Address]
 
     object AddressQuestion {
 
