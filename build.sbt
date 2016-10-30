@@ -5,6 +5,7 @@ name := "qanda"
 version := "0.0.1"
 
 scalaVersion := "2.12.0"
+scalaBinaryVersion := "2.12"
 
 resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases" at "https://oss.sonatype.org/content/repositories/releases",
@@ -25,8 +26,8 @@ scalacOptions ++= Seq(
 scalacOptions in Test ++= Seq("-Yrangepos")
 
 libraryDependencies ++= Seq (
-  "org.typelevel" %% "cats" % "0.6.0",
-  "org.scala-lang.modules" %% "scala-xml" % "1.0.3",
-  "org.scala-lang.modules" %% "scala-java8-compat" % "0.5.0" % "compile",
-  "com.chuusai" %% "shapeless" % "2.2.5" % "compile"
+  "org.typelevel" % "cats_2.12.0-RC2" % "0.8.0",
+  "org.scala-lang.modules" %% "scala-xml" % "1.0.5",
+  "org.scala-lang.modules" %% "scala-java8-compat" % "0.8.0" % "compile",
+  "com.chuusai" % "shapeless_2.12.0-RC2" % "2.3.2" % "compile"
 )
