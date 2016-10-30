@@ -14,14 +14,19 @@ resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/
 
 scalacOptions ++= Seq(
   "-target:jvm-1.8",
-  "-Ydelambdafy:method",
-  "-Ybackend:GenBCode",
-  "-Yopt:l:classpath",
-  "-unchecked",
-  "-deprecation",
-  "-language:_",
   "-Xfatal-warnings",
-  "-Xlint")
+  "-deprecation",
+  "-encoding", "UTF-8",
+  "-feature",
+  "-unchecked",
+  "-Xlint",
+
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-value-discard",
+  "-Xfuture",
+  "-Ywarn-unused-import")
 
 scalacOptions in Test ++= Seq("-Yrangepos")
 

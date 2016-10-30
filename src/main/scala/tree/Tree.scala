@@ -1,9 +1,5 @@
 package tree
 
-import cats.data.Xor
-import cats.data.Xor.{Left, Right}
-import cats.syntax.xor._
-
 /**
   * Here the questionnaire is represented as a tree, QNode,
   * whose leaves are primitive types (String, Ints, etc.).
@@ -31,7 +27,7 @@ object Tree extends App {
 
   final case class IntAnswer(v: Int) extends Answer
 
-  type Element = Option[Answer] Xor Children
+  type Element = Option[Answer] Either Children
 
   final case class Children(nodes: Vector[QNode])
 
@@ -48,7 +44,7 @@ object Tree extends App {
   def answer(node: QNode, path: String*)(value: Answer): Option[QNode] = {
     path.toList match {
       case s :: Nil if node.key == s ⇒
-        Some(node.copy(element = Some(value).left))
+        Some(node.copy(element = Left(Some(value))))
       case s :: Nil ⇒ None
       case a :: subpath if node.key == a ⇒
         node.element match {
@@ -156,4 +152,3 @@ object Tree extends App {
 
   // TODO completion - probably a set of functions of paths
 }
-
