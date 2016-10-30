@@ -1,10 +1,10 @@
 organization := "channing"
 
-name := "expression"
+name := "qanda"
 
 version := "0.0.1"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 
 resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases" at "https://oss.sonatype.org/content/repositories/releases",
