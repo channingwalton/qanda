@@ -1,23 +1,23 @@
 package tree
 
 /**
-  * Here the questionnaire is represented as a tree, QNode,
-  * whose leaves are primitive types (String, Ints, etc.).
-  *
-  * Nodes of the tree are either an optional value, an answer,
-  * or a Vector of QNodes.
-  *
-  * Each node in the tree has a key, so that parts of a questionnaire
-  * and answers can be found via a path.
-  *
-  * This solution is extensible since answers are composites of
-  * simple primitives. But, the huge drawback is a lack of rich types such
-  * as Address or PhoneNumber.
-  *
-  * Unlike the other solutions, the answers to the questionnaire are
-  * embedded in the questionnaire itself, there is no collection of
-  * answers.
-  */
+ * Here the questionnaire is represented as a tree, QNode,
+ * whose leaves are primitive types (String, Ints, etc.).
+ *
+ * Nodes of the tree are either an optional value, an answer,
+ * or a Vector of QNodes.
+ *
+ * Each node in the tree has a key, so that parts of a questionnaire
+ * and answers can be found via a path.
+ *
+ * This solution is extensible since answers are composites of
+ * simple primitives. But, the huge drawback is a lack of rich types such
+ * as Address or PhoneNumber.
+ *
+ * Unlike the other solutions, the answers to the questionnaire are
+ * embedded in the questionnaire itself, there is no collection of
+ * answers.
+ */
 object Tree extends App {
 
   // Answers are only primitive types - we will just have String and Int for now
@@ -37,10 +37,10 @@ object Tree extends App {
   }
 
   /**
-    * Answer a question at a path under the given qnode and apply node.trans to the result
-    *
-    * @return None if the path did not match or there was no change in the answer, or Some modified questionnaire
-    */
+   * Answer a question at a path under the given qnode and apply node.trans to the result
+   *
+   * @return None if the path did not match or there was no change in the answer, or Some modified questionnaire
+   */
   def answer(node: QNode, path: String*)(value: Answer): Option[QNode] = {
     path.toList match {
       case s :: Nil if node.key == s ⇒
@@ -83,15 +83,15 @@ object Tree extends App {
 
   val address: QNode =
     QNode("address", "Address",
-          Right(
-            Children(
-             Vector(
-               QNode("line1", "Line 1", Left(None)),
-               QNode("line2", "Line 2", Left(None)),
-               QNode("fromDate", "From", Left(None))
-             ))
+      Right(
+        Children(
+          Vector(
+            QNode("line1", "Line 1", Left(None)),
+            QNode("line2", "Line 2", Left(None)),
+            QNode("fromDate", "From", Left(None))
           )
-    )
+        )
+      ))
 
   val firstName: QNode = QNode("firstName", "First name", Left(None))
   val lastName: QNode = QNode("lastName", "Last name", Left(None))
@@ -129,13 +129,13 @@ object Tree extends App {
   // Repeating questions
   val phone: QNode = QNode("phone", "Phone Number", Left(None))
   val repQuestionnaire: QNode =
-  QNode(
-    "numbers",
-    "Phone numbers",
-    Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
-    // This function appends a new phone number question to the children
-    children ⇒ Children(children.nodes :+ QNode("phone" + (children.nodes.length + 1), "Phone Number", Left(None)))
-  )
+    QNode(
+      "numbers",
+      "Phone numbers",
+      Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
+      // This function appends a new phone number question to the children
+      children ⇒ Children(children.nodes :+ QNode("phone" + (children.nodes.length + 1), "Phone Number", Left(None)))
+    )
 
   val repAnswered = for {
     a1 ← answer(repQuestionnaire, "numbers", "phone1")(StringAnswer("123"))
