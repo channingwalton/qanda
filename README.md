@@ -12,22 +12,21 @@ Everyone felt certain there was a better way. This project is an exploration of 
 The model must support the following:
 
 1. Questions whose answers are of different types: Strings, Dates, Booleans, Address, Phone Number, etc. Note that these are not all primitives.
-2. Questions can be optional
-3. Questions must support multiple Answers - eg. set of phone numbers, address history
-4. A measure of how complete the questionnaire is - all non-optional questions must be answered
-5. Validation rules:
+2. Questions can be optional but if answered must confirm to validation rules
+3. The modek must support questions with multiple Answers - eg. set of phone numbers, address history
+4. A measure of how complete the questionnaire is - all non-optional questions must be answered without validation errors
+5. Arbitrary validation rules such as:
   * string longer than a certain length
-  * age greater than 16
+  * number greater than or less than another number
   * inter-question validation:
     * the current address does not match the address you gave on your identity document
     * You haven't given at least 3 years address history
-  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer provided so far
+  * essentially an arbitrarily complex expression for a question using its current answer _and_ any other answer
 6. Given a list of questions of different types, produce different representations of the questionnaire:
   * pretty print
   * UI components (as HTML)
   * JSon
   * all the protocols
-&. Repeating questions - some questions need to repeat until some condition is met. For example, requiring 3 years of address history.
 
 ## Oh, and one more thing …
 
