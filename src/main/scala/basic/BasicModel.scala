@@ -28,7 +28,6 @@ object BasicModel {
   val questionnaire: List[Question[_]] = StringQuestion("a", "Who are you?") :: BooleanQuestion("b", "Happy?") :: AddressQuestion("c", "Where do you live?") :: Nil
 
   // Rendering the questionnaire by pattern matching
-  // we can assume that form submissions
   def html[T](question: Question[T]): NodeSeq =
     question match {
       case StringQuestion(k, q) => <span>{q}:</span> ++ <input id={k} />

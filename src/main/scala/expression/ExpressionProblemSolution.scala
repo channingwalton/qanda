@@ -61,7 +61,7 @@ object ExpressionProblemSolution extends App {
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"), "b" → Answer("b", true))
 
   // render the UI
-  val uiAlg: HtmlAlg = new HtmlAlg() {}
+    val uiAlg: HtmlAlg = new HtmlAlg() {}
 
   val initialHtml: NodeSeq = questionnaire(uiAlg).foldLeft(NodeSeq.Empty)(_ ++ _)
 

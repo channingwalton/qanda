@@ -77,8 +77,11 @@ object ShapelessSolution extends App {
 
   case class NumberQuestion(k: Key, question: String) extends Question[Integer]
 
-  object ExtendedHtmlRenderer extends HtmlRenderer {
+  trait ExtendedHtmlRenderer extends HtmlRenderer {
     implicit def caseNumber = at[NumberQuestion]((x: NumberQuestion) ⇒ <numberWidget id={x.k}></numberWidget>)
+  }
+
+  object ExtendedHtmlRenderer extends ExtendedHtmlRenderer {
     def apply[L <: HList](list: L)(implicit m: Mapper[ExtendedHtmlRenderer.type, L]): m.Out = list.map(ExtendedHtmlRenderer)
   }
 
