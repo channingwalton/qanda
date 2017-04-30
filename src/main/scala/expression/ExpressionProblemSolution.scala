@@ -58,7 +58,7 @@ object ExpressionProblemSolution extends App {
     string("a", "What is your name?") :: boolean("b", "Are you over 18?") :: Nil
   }
 
-  val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"))
+  val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"), "b" → Answer("b", true))
 
   // render the UI
   val uiAlg: HtmlAlg = new HtmlAlg() {}

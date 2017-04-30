@@ -38,6 +38,10 @@ object BasicModel {
 
   val ui: NodeSeq = questionnaire.map(html(_)).foldLeft(NodeSeq.Empty)(_ ++ _)
 
+  case class Answer[T](question: Question[T], v: T)
+
+  type AnswerMap = Map[Question[_], Answer[_]]
+
   // implementing a measure of completion is simply a function of the set of answers
   // to the questions
 
