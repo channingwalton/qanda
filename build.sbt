@@ -4,7 +4,7 @@ name := "qanda"
 
 version := "0.0.1"
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.3"
 scalaBinaryVersion := "2.12"
 
 resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
