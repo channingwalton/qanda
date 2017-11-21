@@ -31,6 +31,14 @@ object Tree extends App {
 
   final case class Children(nodes: Vector[QNode])
 
+  /**
+    * QNode is a node in the questionnaire tree
+    * @param key the key enables paths to be formed and uniquely describes this node in the questionnaire
+    * @param text displayed for the node
+    * @param element either an answer or more children
+    * @param trans a function to apply to the children of this node when a question is answered.
+    *              This enables repeating questions, such as addresses or phone numbers.
+    */
   case class QNode(key: String, text: String, element: Element, trans: Children => Children = identity) {
     def transform: QNode =
       copy(element = element.map(trans))
@@ -41,7 +49,7 @@ object Tree extends App {
     *
     * @return None if the path did not match or there was no change in the answer, or Some modified questionnaire
     */
-  def answer(node: QNode, path: String*)(value: Answer): Option[QNode] = {
+  def answer(node: QNode, path: String*)(value: Answer): Option[QNode] =
     path.toList match {
       case s :: Nil if node.key == s ⇒
         Some(node.copy(element = Left(Some(value))))
@@ -58,11 +66,10 @@ object Tree extends App {
             if (updated == qnodes)
               None
             else
-              Some(node.copy(element = Right(Children(updated))))
+              Some(node.copy(element = Right(Children(updated))).transform)
         }
       case _ ⇒ None
     }
-  }.map(_.transform)
 
   /*
    *  string representation of a QNode
@@ -133,13 +140,17 @@ object Tree extends App {
 
   // Repeating questions
   val phone: QNode = QNode("phone", "Phone Number", Left(None))
+
+  // This function appends a new child node for the next number when a question is answered
+  private val appendNumber: Children ⇒ Children = (children: Children) ⇒
+    Children(children.nodes :+ QNode("phone" + (children.nodes.length + 1).toString, "Phone Number", Left(None)))
+
   val repQuestionnaire: QNode =
     QNode(
       "numbers",
       "Phone numbers",
       Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
-      // This function appends a new phone number question to the children
-      children ⇒ Children(children.nodes :+ QNode("phone" + (children.nodes.length + 1).toString, "Phone Number", Left(None)))
+      appendNumber
     )
 
   val repAnswered = for {
