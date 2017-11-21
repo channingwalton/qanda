@@ -13,7 +13,7 @@ The model must support the following:
 
 1. Questions whose answers are of different types: Strings, Dates, Booleans, Address, Phone Number, etc. Note that these are not all primitives.
 2. Questions can be optional but if answered must confirm to validation rules
-3. The modek must support questions with multiple Answers - eg. set of phone numbers, address history
+3. The model must support questions with multiple Answers - eg. set of phone numbers, address history
 4. A measure of how complete the questionnaire is - all non-optional questions must be answered without validation errors
 5. Arbitrary validation rules such as:
   * string longer than a certain length
