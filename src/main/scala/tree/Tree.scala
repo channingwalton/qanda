@@ -48,7 +48,7 @@ object Tree extends App {
       case _ :: Nil ⇒ None
       case a :: subpath if node.key == a ⇒
         node.element match {
-          case Left(_) ⇒ None // there is an answer present at this incomplete path location which is a fail
+          case Left(_) ⇒ None // there is an answer present at this incomplete path location - we were expecting children
           case Right(Children(qnodes)) ⇒
             val updated = for {
               q ← qnodes
