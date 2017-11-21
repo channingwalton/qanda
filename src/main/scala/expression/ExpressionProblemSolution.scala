@@ -25,7 +25,7 @@ object ExpressionProblemSolution extends App {
 
   // a QuestionAlg that can produce Html
   trait HtmlAlg extends QuestionAlg[NodeSeq] {
-    def string(k: Key, q: String): NodeSeq = <input id={k.toString}></input>
+    def string(k: Key, q: String): NodeSeq  = <input id={k.toString}></input>
     def boolean(k: Key, q: String): NodeSeq = <checkbox id={k.toString}></checkbox>
   }
 
@@ -36,7 +36,7 @@ object ExpressionProblemSolution extends App {
     def key: Key
   }
 
-  final case class Complete(key: Key) extends Completion
+  final case class Complete(key: Key)    extends Completion
   final case class NotComplete(key: Key) extends Completion
 
   // a simple completion algorithm that requires answers to all questions
@@ -47,7 +47,6 @@ object ExpressionProblemSolution extends App {
 
     def boolean(k: Key, q: String): Completion = qAnswer[Boolean](k).fold[Completion](NotComplete(k))(_ => Complete(k))
   }
-
 
   // *********
   // Put it all together
@@ -61,13 +60,14 @@ object ExpressionProblemSolution extends App {
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"), "b" → Answer("b", true))
 
   // render the UI
-    val uiAlg: HtmlAlg = new HtmlAlg() {}
+  val uiAlg: HtmlAlg = new HtmlAlg() {}
 
   val initialHtml: NodeSeq = questionnaire(uiAlg).foldLeft(NodeSeq.Empty)(_ ++ _)
 
   println(initialHtml)
 
   // calculate completion for the questionnaire
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
   def calcCompletion(answers: AnswerMap): CompletionAlg = new CompletionAlg {
     override def qAnswer[T](k: Key): Option[Answer[T]] = answers.get(k).asInstanceOf[Option[Answer[T]]] //yuck - whatever
   }
@@ -100,6 +100,7 @@ object ExpressionProblemSolution extends App {
     def number(k: Key, q: String): Completion = qAnswer[Integer](k).fold[Completion](NotComplete(k))(_ => Complete(k))
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
   def calcExtendedCompletion(answers: AnswerMap): ExtendedCompletionAlg = new ExtendedCompletionAlg {
     override def qAnswer[T](k: Key): Option[Answer[T]] = answers.get(k).asInstanceOf[Option[Answer[T]]] //yuck - whatever
   }

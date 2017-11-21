@@ -25,7 +25,7 @@ object Typeclasses {
 
     // a questionnaire is built with a question and more context
     final case class QContext[Q <: Question[_]](q: Q)(implicit html: AsHtml[Q], completion: CompletionCalculator[Q]) {
-      def renderHtml: NodeSeq = html.asHtml(q)
+      def renderHtml: NodeSeq                          = html.asHtml(q)
       def completion(answerMap: AnswerMap): Completion = completion.calculate(q, answerMap)
     }
 
@@ -41,7 +41,7 @@ object Typeclasses {
       // the key of the completed / incomplete question
       def key: Key
     }
-    case class Complete(key: Key) extends Completion
+    case class Complete(key: Key)    extends Completion
     case class NotComplete(key: Key) extends Completion
 
     trait CompletionCalculator[A] {
@@ -94,8 +94,8 @@ object Typeclasses {
     import Core._
     import Basics._
 
-    val who = StringQuestion("a", "Who are you?")
-    val happy = BooleanQuestion("b", "Happy?")
+    val who                              = StringQuestion("a", "Who are you?")
+    val happy                            = BooleanQuestion("b", "Happy?")
     val questionnaire: List[QContext[_]] = QContext(who) :: QContext(happy) :: Nil
 
     val ui: NodeSeq = questionnaire.map(_.renderHtml).foldLeft(NodeSeq.Empty)(_ ++ _)

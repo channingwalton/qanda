@@ -1,6 +1,11 @@
-resolvers ++= Seq("snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-  "releases" at "https://oss.sonatype.org/content/repositories/releases",
-  "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
-)
+// Code formatter. See https://github.com/lucidsoftware/neo-sbt-scalafmt
+addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.14")
 
-addSbtPlugin("com.gilt" % "sbt-dependency-graph-sugar" % "0.7.5-1")
+// Used to find outdated dependencies - See https://github.com/rtimush/sbt-updates
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.3")
+
+// Scala code linting tool - See http://www.wartremover.org
+addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.2.1")
+
+// Speeds up retrieval of dependencies - See https://github.com/coursier/coursier
+addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.0-RC13")

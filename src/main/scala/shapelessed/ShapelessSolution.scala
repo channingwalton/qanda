@@ -14,7 +14,7 @@ object ShapelessSolution extends App {
     def k: Key
     def question: String
   }
-  case class StringQuestion(k: Key, question: String) extends Question[String]
+  case class StringQuestion(k: Key, question: String)  extends Question[String]
   case class BooleanQuestion(k: Key, question: String) extends Question[Boolean]
 
   case class Answer[T](k: Key, v: T)
@@ -38,40 +38,38 @@ object ShapelessSolution extends App {
     def key: Key
   }
 
-  case class Complete(key: Key) extends Completion
+  case class Complete(key: Key)    extends Completion
   case class NotComplete(key: Key) extends Completion
 
   class CompletionCalculator(answers: AnswerMap) {
 
     object Apply extends Poly1 {
-      implicit def caseString = at[StringQuestion]((x: StringQuestion) ⇒
-        answers.get(x.k).fold[Completion](NotComplete(x.k))(_ ⇒ Complete(x.k)))
+      implicit def caseString =
+        at[StringQuestion]((x: StringQuestion) ⇒ answers.get(x.k).fold[Completion](NotComplete(x.k))(_ ⇒ Complete(x.k)))
 
-      implicit def caseBoolean = at[BooleanQuestion]((x: BooleanQuestion) ⇒
-        answers.get(x.k).fold[Completion](NotComplete(x.k))(_ ⇒ Complete(x.k)))
+      implicit def caseBoolean =
+        at[BooleanQuestion]((x: BooleanQuestion) ⇒ answers.get(x.k).fold[Completion](NotComplete(x.k))(_ ⇒ Complete(x.k)))
 
     }
     def apply[L <: HList](list: L)(implicit m: Mapper[Apply.type, L]): m.Out = list.map(Apply)
   }
 
-
   // testing
 
   // A questionnaire is simply an HList
   val bQuestion: BooleanQuestion = BooleanQuestion("a", "Yes or no?")
-  val tQuestion: StringQuestion = StringQuestion("b", "What's your answer?")
+  val tQuestion: StringQuestion  = StringQuestion("b", "What's your answer?")
 
   val questions = bQuestion :: tQuestion :: HNil
 
-  val nodeSeq = HtmlRenderer(questions).toList.foldLeft(NodeSeq.Empty)(_ ++_)
+  val nodeSeq = HtmlRenderer(questions).toList.foldLeft(NodeSeq.Empty)(_ ++ _)
   println(nodeSeq)
 
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"))
-  val calc = new CompletionCalculator(someAnswers)
-  val results = calc(questions)
+  val calc                   = new CompletionCalculator(someAnswers)
+  val results                = calc(questions)
 
   println(results)
-
 
   // And we can extend it!
 
@@ -86,6 +84,6 @@ object ShapelessSolution extends App {
   }
 
   val extendedQuestions = bQuestion :: tQuestion :: NumberQuestion("c", "How much?") :: HNil
-  val extendedNodeSeq = ExtendedHtmlRenderer(extendedQuestions).toList.foldLeft(NodeSeq.Empty)(_ ++_)
+  val extendedNodeSeq   = ExtendedHtmlRenderer(extendedQuestions).toList.foldLeft(NodeSeq.Empty)(_ ++ _)
   println(extendedNodeSeq)
 }
