@@ -57,15 +57,18 @@ object Tree extends App {
       case a :: subpath if node.key == a ⇒
         node.element match {
           case Left(_) ⇒ None // there is an answer present at this incomplete path location - we were expecting children
-          case Right(Children(qnodes)) ⇒
+          case Right(Children(qnodes)) ⇒ // traverse the tree until the place to put the answer is found
             val updated = for {
               q ← qnodes
               u = answer(q, subpath: _*)(value).getOrElse(q)
             } yield u
 
             if (updated == qnodes)
-              None
+              None // nothing changed
             else
+              // we tree is modified so return a new node with the updated children
+              // the transform is also applied in case the tree needs to modify itself
+              // as a result of the answers
               Some(node.copy(element = Right(Children(updated))).transform)
         }
       case _ ⇒ None
@@ -147,23 +150,34 @@ object Tree extends App {
 
   val repQuestionnaire: QNode =
     QNode(
-      "numbers",
-      "Phone numbers",
-      Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
-      appendNumber
+      "personalDetails",
+      "Personal Details",
+      Right(
+        Children(
+          Vector(
+            QNode(
+              "phoneNumbers",
+              "Phone numbers",
+              Right(Children(Vector(QNode("phone1", "Phone Number", Left(None))))),
+              appendNumber
+            )
+          )
+        )
+      )
     )
 
   val repAnswered = for {
-    a1 ← answer(repQuestionnaire, "numbers", "phone1")(StringAnswer("123"))
-    a2 ← answer(a1, "numbers", "phone2")(StringAnswer("456"))
+    a1 ← answer(repQuestionnaire, "personalDetails", "phoneNumbers", "phone1")(StringAnswer("123"))
+    a2 ← answer(a1, "personalDetails", "phoneNumbers", "phone2")(StringAnswer("456"))
   } yield a2
 
   println(repAnswered.fold("No answer")(show))
   /*
-  Phone numbers
-   Phone Number  StringAnswer(123)
-   Phone Number  StringAnswer(456)
-   Phone Number
+    Personal Details
+     Phone numbers
+      Phone Number   StringAnswer(123)
+      Phone Number   StringAnswer(456)
+      Phone Number
    */
 
   // TODO completion - probably a set of functions of paths
