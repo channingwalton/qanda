@@ -19,6 +19,7 @@ object ShapelessSolution extends App {
 
   case class Answer[T](k: Key, v: T)
 
+  // The answers are kept in a map
   type AnswerMap = Map[Key, Answer[_]]
 
   // render as NodeSeq using a polymorphic function
@@ -64,12 +65,18 @@ object ShapelessSolution extends App {
 
   val nodeSeq = HtmlRenderer(questions).toList.foldLeft(NodeSeq.Empty)(_ ++ _)
   println(nodeSeq)
+  /*
+  <checkbox id="a"></checkbox><input id="b"></input>
+   */
 
   val someAnswers: AnswerMap = Map("a" -> Answer("a", "I haz answer"))
   val calc                   = new CompletionCalculator(someAnswers)
   val results                = calc(questions)
 
   println(results)
+  /*
+  Complete(a) :: NotComplete(b) :: HNil
+   */
 
   // And we can extend it!
 
@@ -86,4 +93,7 @@ object ShapelessSolution extends App {
   val extendedQuestions = bQuestion :: tQuestion :: NumberQuestion("c", "How much?") :: HNil
   val extendedNodeSeq   = ExtendedHtmlRenderer(extendedQuestions).toList.foldLeft(NodeSeq.Empty)(_ ++ _)
   println(extendedNodeSeq)
+  /*
+  <checkbox id="a"></checkbox><input id="b"></input><numberWidget id="c"></numberWidget>
+   */
 }
