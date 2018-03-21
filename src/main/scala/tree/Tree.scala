@@ -66,7 +66,7 @@ object Tree extends App {
             if (updated == qnodes)
               None // nothing changed
             else
-              // we tree is modified so return a new node with the updated children
+              // the tree is modified so return a new node with the updated children
               // the transform is also applied in case the tree needs to modify itself
               // as a result of the answers
               Some(node.copy(element = Right(Children(updated))).transform)
