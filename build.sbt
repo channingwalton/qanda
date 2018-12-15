@@ -77,9 +77,31 @@ val excludedWarts = Seq(Wart.DefaultArguments, Wart.NonUnitStatements, Wart.Thro
 
 wartremoverErrors ++= Warts.unsafe.filterNot(excludedWarts.contains)
 
-libraryDependencies ++= Seq(
-  "org.typelevel"          %% "cats"               % "0.9.0",
-  "org.scala-lang.modules" %% "scala-xml"          % "1.0.6",
-  "org.scala-lang.modules" %% "scala-java8-compat" % "0.8.0" % "compile",
-  "com.chuusai"            %% "shapeless"          % "2.3.2" % "compile"
-)
+lazy val settings =
+  commonSettings
+
+lazy val commonSettings =
+  Seq(
+    scalaVersion := "2.12.8",
+    version := Option(System.getenv("BUILD_NAME")).getOrElse("SNAPSHOT"),
+    organization := "io.questions",
+    organizationName := "TBD",
+    startYear := Some(2018),
+    licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
+    resolvers += Resolver.sonatypeRepo("releases"),
+    scalacOptions in (Test, Keys.compile) ++= basicScalacOptions,
+    scalacOptions in (Compile, Keys.compile) ++= prodScalaOptions,
+    Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
+    Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value)
+  )
+
+lazy val root =
+  project("qanda", ".")
+    .aggregate(experimental)
+
+lazy val experimental =
+  project("experimental", "experimental")
+
+def project(id: String, base: String, scalacOptionsFilter: String => Boolean = _ => true): Project =
+  Project(id = id, base = file(Option(base).getOrElse(id)))
+    .settings(settings: _*)
