@@ -4,7 +4,7 @@ name := "qanda"
 
 version := "0.0.1"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.8"
 scalaBinaryVersion := "2.12"
 
 resolvers ++= Seq(

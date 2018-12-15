@@ -95,5 +95,5 @@ object ShapelessSolution extends App {
   println(extendedNodeSeq)
   /*
   <checkbox id="a"></checkbox><input id="b"></input><numberWidget id="c"></numberWidget>
-   */
+ */
 }
