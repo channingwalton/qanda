@@ -4,9 +4,6 @@ name := "qanda"
 
 version := "0.0.1"
 
-scalaVersion := "2.12.8"
-scalaBinaryVersion := "2.12"
-
 resolvers ++= Seq(
   "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases" at "https://oss.sonatype.org/content/repositories/releases",
@@ -70,15 +67,10 @@ val prodScalaOptions = basicScalacOptions :+ "-Ywarn-value-discard" // Warn when
 scalacOptions ++= prodScalaOptions
 scalacOptions in Test ++= basicScalacOptions
 
-scalafmtOnCompile := true
-scalafmtTestOnCompile := true
-
-val excludedWarts = Seq(Wart.DefaultArguments, Wart.NonUnitStatements, Wart.Throw, Wart.Var)
-
-wartremoverErrors ++= Warts.unsafe.filterNot(excludedWarts.contains)
-
 lazy val settings =
-  commonSettings
+  commonSettings ++
+  scalafmtSettings ++
+  wartRemoverSettings
 
 lazy val commonSettings =
   Seq(
@@ -87,12 +79,22 @@ lazy val commonSettings =
     organization := "io.questions",
     organizationName := "TBD",
     startYear := Some(2018),
-    licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
     resolvers += Resolver.sonatypeRepo("releases"),
     scalacOptions in (Test, Keys.compile) ++= basicScalacOptions,
     scalacOptions in (Compile, Keys.compile) ++= prodScalaOptions,
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value)
+  )
+
+  lazy val scalafmtSettings =
+  Seq(
+    scalafmtOnCompile := true
+  )
+
+lazy val excludedWarts = Seq(Wart.DefaultArguments, Wart.Throw, Wart.Any)
+lazy val wartRemoverSettings =
+  Seq(
+    wartremoverWarnings in (Compile, compile) ++= Warts.unsafe.filterNot(excludedWarts.contains)
   )
 
 lazy val root =
