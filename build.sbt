@@ -99,10 +99,13 @@ lazy val wartRemoverSettings =
 
 lazy val root =
   project("qanda", ".")
-    .aggregate(experimental)
+    .aggregate(experimental, questionnaire)
 
 lazy val experimental =
   project("experimental", "experimental")
+
+lazy val questionnaire =
+  project("questionnaire", "questionnaire")  
 
 def project(id: String, base: String, scalacOptionsFilter: String => Boolean = _ => true): Project =
   Project(id = id, base = file(Option(base).getOrElse(id)))
