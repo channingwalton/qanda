@@ -2,13 +2,15 @@ import sbt._
 
 object LibraryVersions {
   object Version {
-      val cats = "1.3.1"
-      val circe = "0.9.3"
-      val kindProjector = "0.9.9"
-      val scalaXml = "1.1.1"
-      val java8compat = "0.9.0"
-      val shapeless = "2.3.3"
-      val scalaTest = "3.0.5"
+    val cats = "1.3.1"
+    val circe = "0.9.3"
+    val kindProjector = "0.9.9"
+    val scalaXml = "1.1.1"
+    val java8compat = "0.9.0"
+    val shapeless = "2.3.3"
+    val scalaTest = "3.0.5"
+    val scalaCheck = "1.14.0"
+    val scalaCheckToolbox = "0.2.5"
   }
 
   val cats                      = "org.typelevel"          %% "cats-core"              % Version.cats
@@ -25,5 +27,8 @@ object LibraryVersions {
   val scalaxml    = "org.scala-lang.modules" %% "scala-xml"          % Version.scalaXml
   val java8compat = "org.scala-lang.modules" %% "scala-java8-compat" % Version.java8compat
   val shapeless   = "com.chuusai"            %% "shapeless"          % Version.shapeless
-  val scalaTest   = "org.scalatest"          %% "scalatest"          % Version.scalaTest % Test
+
+  val scalaCheck         = "org.scalacheck" %% "scalacheck"                   % Version.scalaCheck        % Test
+  val scalaCheckToolbox  = "com.47deg"      %% "scalacheck-toolbox-datetime"  % Version.scalaCheckToolbox % Test
+  val scalaTest          = "org.scalatest"  %% "scalatest"                    % Version.scalaTest         % Test
 }

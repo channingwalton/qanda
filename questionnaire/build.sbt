@@ -14,5 +14,7 @@ libraryDependencies ++= Seq(
   circeRefined,
   circeJava8,
   shapeless,
-  scalaTest
+  scalaTest,
+  scalaCheck,
+  scalaCheckToolbox
 )

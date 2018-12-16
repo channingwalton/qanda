@@ -22,7 +22,6 @@ import io.questions.QuestionsSpec
 import io.questions.model.questionnaire.Element.{ Parent, Primitive }
 import io.questions.model.questionnaire.PrimitiveAnswer.{ IntAnswer, StringAnswer }
 import io.questions.model.questionnaire.nodekey.NodeKey
-import io.questions.model.ui.{ UIPrimitiveAnswer, UIQuestionnaireNode }
 import io.questions.testdata.ExampleComponents
 
 class PackageObjectSpec extends QuestionsSpec {
@@ -61,18 +60,6 @@ class PackageObjectSpec extends QuestionsSpec {
         val idNode   = questionnaire.find(Components.idKey).getOrElse(fail("Couldn't find id node"))
         val idAnswer = idNode.element.asInstanceOf[Primitive].answer.asInstanceOf[StringAnswer].answer.get
         questionnaire.getId.right.value.id.toString mustBe idAnswer
-      }
-    }
-    "toUIQuestionnaire" - {
-      "returns the UI version of our node" in {
-        val node = qn("l3", "bar")
-        val expected = UIQuestionnaireNode(node.key,
-                                           QuestionText("l3"),
-                                           io.questions.model.ui.UIElement.Primitive(UIPrimitiveAnswer.StringAnswer(Some("bar"))),
-                                           optional = false,
-                                           None,
-                                           editable = true)
-        node.toUIQuestionnaire.right.value mustBe expected
       }
     }
   }
