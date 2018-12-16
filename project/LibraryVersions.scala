@@ -4,8 +4,8 @@ object LibraryVersions {
   object Version {
       val cats = "0.9.0"
       val scalaXml = "1.1.1"
-      val java8compat = "0.8.0"
-      val shapeless = "2.3.2"
+      val java8compat = "0.9.0"
+      val shapeless = "2.3.3"
   }
 
   val cats        = "org.typelevel"          %% "cats"               % Version.cats
