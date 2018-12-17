@@ -11,7 +11,7 @@ final case class NodeKey(base: NodeKeyBase, extension: NodeKeyExtension)
 object NodeKey extends EncoderHelpers {
   def random: NodeKey                                 = NodeKey(NodeKeyBase.random, NodeKeyExtension.random)
   def withRandomExtension(base: NodeKeyBase): NodeKey = NodeKey(base, NodeKeyExtension.random)
-  def apply(uuid: String): NodeKey                    = NodeKey(TypedUUID.unsafe(uuid), TypedUUID.unsafe(uuid))
+  def apply(uuid: String): NodeKey                    = NodeKey(NodeKeyBase.unsafe(uuid), TypedUUID.unsafe(uuid))
 
   implicit val encoder: Encoder[NodeKey] = deriveCustomEncoder
   implicit val decoder: Decoder[NodeKey] = deriveCustomDecoder
