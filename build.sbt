@@ -1,9 +1,3 @@
-organization := "channing"
-
-name := "qanda"
-
-version := "0.0.1"
-
 resolvers ++= Seq(
   "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases" at "https://oss.sonatype.org/content/repositories/releases",
@@ -73,7 +67,6 @@ lazy val settings =
 lazy val commonSettings =
   Seq(
     scalaVersion := "2.12.8",
-    version := Option(System.getenv("BUILD_NAME")).getOrElse("SNAPSHOT"),
     organization := "io.questions",
     startYear := Some(2018),
     resolvers += Resolver.sonatypeRepo("releases"),
