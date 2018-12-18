@@ -10,8 +10,6 @@ resolvers ++= Seq(
   "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
 )
 
-val unusedParams = "-Ywarn-unused:params" // Warn if a value parameter is unused.
-
 val basicScalacOptions = Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-encoding",
@@ -57,7 +55,7 @@ val basicScalacOptions = Seq(
   "-Ywarn-unused:implicits", // Warn if an implicit parameter is unused.
   "-Ywarn-unused:imports", // Warn if an import selector is not referenced.
   "-Ywarn-unused:locals", // Warn if a local definition is unused.
-  unusedParams,
+  "-Ywarn-unused:params", // Warn if a value parameter is unused,
   "-Ywarn-unused:patvars", // Warn if a variable bound in a pattern is unused.
   "-Ywarn-unused:privates" // Warn if a private member is unused.
 )
@@ -77,7 +75,6 @@ lazy val commonSettings =
     scalaVersion := "2.12.8",
     version := Option(System.getenv("BUILD_NAME")).getOrElse("SNAPSHOT"),
     organization := "io.questions",
-    organizationName := "TBD",
     startYear := Some(2018),
     resolvers += Resolver.sonatypeRepo("releases"),
     scalacOptions in (Test, Keys.compile) ++= basicScalacOptions,
