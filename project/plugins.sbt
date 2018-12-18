@@ -25,3 +25,6 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
 
 // See https://github.com/sbt/sbt-release
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.10")
+
+// See https://github.com/scoverage/sbt-scoverage
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")

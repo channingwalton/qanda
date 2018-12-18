@@ -76,7 +76,7 @@ lazy val commonSettings =
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value)
   )
 
-  lazy val scalafmtSettings =
+lazy val scalafmtSettings =
   Seq(
     scalafmtOnCompile := true
   )
@@ -87,6 +87,12 @@ lazy val wartRemoverSettings =
     wartremoverWarnings in (Compile, compile) ++= Warts.unsafe.filterNot(excludedWarts.contains)
   )
 
+lazy val scoverageSettings =
+   Seq(
+     coverageMinimum := 90,
+     coverageFailOnMinimum := true
+   )
+
 lazy val root =
   project("qanda", ".")
     .aggregate(experimental, questionnaire)
@@ -95,7 +101,8 @@ lazy val experimental =
   project("experimental", "experimental")
 
 lazy val questionnaire =
-  project("questionnaire", "questionnaire")  
+  project("questionnaire", "questionnaire")
+    .settings(scoverageSettings: _*)
 
 def project(id: String, base: String, scalacOptionsFilter: String => Boolean = _ => true): Project =
   Project(id = id, base = file(Option(base).getOrElse(id)))
