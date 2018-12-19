@@ -32,7 +32,10 @@ object TestQuestionnaire {
     QuestionnaireNode(nodekey.NodeKey("age"), FieldName("age"), QuestionText("Age"), Primitive(IntAnswer(None)))
 
   val homeAddresses: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey("homeAddress"), FieldName("homeAddresses"), QuestionText("Home Addresses"), RepeatingParent(address))
+    QuestionnaireNode(nodekey.NodeKey("homeAddresses"),
+                      FieldName("homeAddresses"),
+                      QuestionText("Home Addresses"),
+                      RepeatingParent(address))
 
   val countryOfNationality: QuestionnaireNode =
     QuestionnaireNode(nodekey.NodeKey("countryOfNationality"),
@@ -99,7 +102,7 @@ object TestQuestionnaire {
   def questionnaire: QuestionnaireNode =
     ExampleComponents
       .standard(
-        NodeKey("Personal Questionnaire"),
+        NodeKey("personalQuestions"),
         "personalQuestions".fieldName,
         "Personal Questions".text,
         NonRepeatingParent(firstSection, secondSection),
@@ -144,9 +147,12 @@ object PrintTestQuestionnaire extends App {
   implicit private def stringToFieldName(s: String): FieldName = FieldName(s)
 
   println(
-    (root / homeAddresses.keyBase) Ǝ (root / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line1").keyBase === "Bisley") apply filledQuestionnaire
+    (root / homeAddresses.keyBase) Ǝ (root / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line1").keyBase === "14 Orchid Drive") apply filledQuestionnaire
   )
   println(
     (root / homeAddresses.keyBase) ∀ (root / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line2").keyBase === "Woking") apply filledQuestionnaire
+  )
+  println(
+    (root / homeAddresses.keyBase) Ǝ (root / (filledQuestionnaire /-/ "age").keyBase === 60) apply filledQuestionnaire
   )
 }
