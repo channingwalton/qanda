@@ -4,14 +4,13 @@ import cats.syntax.show._
 import cats.{ Eq, Show }
 import io.circe.{ Decoder, Encoder }
 import io.questions.model.EncoderHelpers
-import io.questions.util.TypedUUID
 
 final case class NodeKey(base: NodeKeyBase, extension: NodeKeyExtension)
 
 object NodeKey extends EncoderHelpers {
   def random: NodeKey                                 = NodeKey(NodeKeyBase.random, NodeKeyExtension.random)
   def withRandomExtension(base: NodeKeyBase): NodeKey = NodeKey(base, NodeKeyExtension.random)
-  def apply(uuid: String): NodeKey                    = NodeKey(NodeKeyBase.unsafe(uuid), TypedUUID.unsafe(uuid))
+  def apply(base: String): NodeKey                    = NodeKey(NodeKeyBase.unsafe(base), NodeKeyExtension.random)
 
   implicit val encoder: Encoder[NodeKey] = deriveCustomEncoder
   implicit val decoder: Decoder[NodeKey] = deriveCustomDecoder

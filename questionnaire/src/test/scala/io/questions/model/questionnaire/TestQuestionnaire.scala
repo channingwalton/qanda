@@ -14,38 +14,41 @@ object TestQuestionnaire {
   // a questionnaire
   val address: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("address"),
       "address".fieldName,
       "Address".text,
       NonRepeatingParent(
-        QuestionnaireNode(nodekey.NodeKey.random, FieldName("line1"), QuestionText("Line 1"), Primitive(StringAnswer(None))),
-        QuestionnaireNode(nodekey.NodeKey.random, FieldName("line2"), QuestionText("Line 2"), Primitive(StringAnswer(None))),
-        QuestionnaireNode(nodekey.NodeKey.random, FieldName("fromDate"), QuestionText("From"), Primitive(StringAnswer(None))),
+        QuestionnaireNode(nodekey.NodeKey("line1"), FieldName("line1"), QuestionText("Line 1"), Primitive(StringAnswer(None))),
+        QuestionnaireNode(nodekey.NodeKey("line2"), FieldName("line2"), QuestionText("Line 2"), Primitive(StringAnswer(None))),
+        QuestionnaireNode(nodekey.NodeKey("fromDate"), FieldName("fromDate"), QuestionText("From"), Primitive(StringAnswer(None))),
       )
     )
 
   val firstName: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random, FieldName("firstName"), QuestionText("First name"), Primitive(StringAnswer(None)))
+    QuestionnaireNode(nodekey.NodeKey("firstName"), FieldName("firstName"), QuestionText("First name"), Primitive(StringAnswer(None)))
   val lastName: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random, FieldName("lastName"), QuestionText("Last name"), Primitive(StringAnswer(None)))
+    QuestionnaireNode(nodekey.NodeKey("lastName"), FieldName("lastName"), QuestionText("Last name"), Primitive(StringAnswer(None)))
   val age: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random, FieldName("age"), QuestionText("Age"), Primitive(IntAnswer(None)))
+    QuestionnaireNode(nodekey.NodeKey("age"), FieldName("age"), QuestionText("Age"), Primitive(IntAnswer(None)))
 
   val homeAddresses: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random, FieldName("homeAddresses"), QuestionText("Home Addresses"), RepeatingParent(address))
+    QuestionnaireNode(nodekey.NodeKey("homeAddress"), FieldName("homeAddresses"), QuestionText("Home Addresses"), RepeatingParent(address))
 
   val countryOfNationality: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random, FieldName("nationality"), QuestionText("Nationality"), Primitive(StringAnswer(None)))
+    QuestionnaireNode(nodekey.NodeKey("countryOfNationality"),
+                      FieldName("nationality"),
+                      QuestionText("Nationality"),
+                      Primitive(StringAnswer(None)))
   val countryOfBirth: QuestionnaireNode = countryQuestion("countryOfBirth".fieldName, "Country of birth".text)
   val countriesOfNationality: QuestionnaireNode =
-    QuestionnaireNode(nodekey.NodeKey.random,
+    QuestionnaireNode(nodekey.NodeKey("countriesOfNationality"),
                       FieldName("nationalities"),
                       QuestionText("Nationalities"),
                       RepeatingParent(countryOfNationality))
 
   val firstPage: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("firstPage"),
       FieldName("firstPage"),
       QuestionText("First Page"),
       NonRepeatingParent(firstName, lastName),
@@ -53,7 +56,7 @@ object TestQuestionnaire {
     )
   val secondPage: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("secondPage"),
       FieldName("secondPage"),
       QuestionText("Second Page"),
       NonRepeatingParent(homeAddresses),
@@ -61,7 +64,7 @@ object TestQuestionnaire {
     )
   val thirdPage: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("thirdPage"),
       FieldName("thirdPage"),
       QuestionText("Third Page"),
       NonRepeatingParent(age),
@@ -69,7 +72,7 @@ object TestQuestionnaire {
     )
   val fourthPage: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("fourthPage"),
       FieldName("fourthPage"),
       QuestionText("Fourth Page"),
       NonRepeatingParent(countryOfBirth, countriesOfNationality),
@@ -77,7 +80,7 @@ object TestQuestionnaire {
     )
   val firstSection: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("firstSection"),
       FieldName("firstSection"),
       QuestionText("First Section"),
       NonRepeatingParent(firstPage, secondPage),
@@ -86,7 +89,7 @@ object TestQuestionnaire {
 
   val secondSection: QuestionnaireNode =
     QuestionnaireNode(
-      NodeKey.random,
+      NodeKey("secondSection"),
       FieldName("secondSection"),
       QuestionText("Second Section"),
       NonRepeatingParent(thirdPage, fourthPage),
@@ -96,7 +99,7 @@ object TestQuestionnaire {
   def questionnaire: QuestionnaireNode =
     ExampleComponents
       .standard(
-        NodeKey.random,
+        NodeKey("Personal Questionnaire"),
         "personalQuestions".fieldName,
         "Personal Questions".text,
         NonRepeatingParent(firstSection, secondSection),
