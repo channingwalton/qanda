@@ -117,7 +117,7 @@ class QuestionnaireNodeSpec extends QuestionsSpec {
   }
 
   "derive" - {
-    "with no derived anwers" in {
+    "with no derived answers" in {
       val q = qn("root", "a")
       q.derive mustBe q
     }

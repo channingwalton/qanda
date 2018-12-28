@@ -17,16 +17,16 @@ trait QuestionnaireUtils {
     QuestionnaireNode(key, "", "", NonRepeatingParent(kid, kids: _*))
 
   def qn(fieldName: String, kid: QuestionnaireNode, kids: QuestionnaireNode*): QuestionnaireNode =
-    QuestionnaireNode(nodeKey, fieldName, fieldName, NonRepeatingParent(kid, kids: _*))
+    QuestionnaireNode(nodekey.NodeKey(fieldName), fieldName, fieldName, NonRepeatingParent(kid, kids: _*))
 
   def rqn(fieldName: String, kid: QuestionnaireNode, kids: QuestionnaireNode*): QuestionnaireNode =
-    QuestionnaireNode(nodeKey, fieldName, fieldName, Element.Parent(repeating = true, NonEmptyList.of(kid, kids: _*)))
+    QuestionnaireNode(nodekey.NodeKey(fieldName), fieldName, fieldName, Element.Parent(repeating = true, NonEmptyList.of(kid, kids: _*)))
 
   def rqn(kid: QuestionnaireNode, kids: QuestionnaireNode*): QuestionnaireNode =
     QuestionnaireNode(nodeKey, "", "", Element.Parent(repeating = true, NonEmptyList.of(kid, kids: _*)))
 
   def qn(fieldName: String, ans: String): QuestionnaireNode =
-    QuestionnaireNode(nodeKey, fieldName, fieldName, Primitive(PrimitiveAnswer.StringAnswer(Some(ans))))
+    QuestionnaireNode(nodekey.NodeKey(fieldName), fieldName, fieldName, Primitive(PrimitiveAnswer.StringAnswer(Some(ans))))
 
   def qn(key: NodeKey, ans: String): QuestionnaireNode =
     QuestionnaireNode(key, "", "", Primitive(PrimitiveAnswer.StringAnswer(Some(ans))))
