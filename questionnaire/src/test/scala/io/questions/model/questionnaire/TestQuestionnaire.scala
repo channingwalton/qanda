@@ -147,10 +147,10 @@ object PrintTestQuestionnaire extends App {
   implicit private def stringToFieldName(s: String): FieldName = FieldName(s)
 
   println(
-    (root / homeAddresses.keyBase) Ǝ (root / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line1").keyBase === "14 Orchid Drive") apply filledQuestionnaire
+    (root / homeAddresses.keyBase) Ǝ (relative / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line1").keyBase === "14 Orchid Drive") apply filledQuestionnaire
   )
   println(
-    (root / homeAddresses.keyBase) ∀ (root / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line2").keyBase === "Woking") apply filledQuestionnaire
+    (root / homeAddresses.keyBase) ∀ (relative / (filledQuestionnaire /-/ "homeAddresses" / 0 / "line2").keyBase === "Woking") apply filledQuestionnaire
   )
   println(
     (root / homeAddresses.keyBase) Ǝ (root / (filledQuestionnaire /-/ "age").keyBase === 60) apply filledQuestionnaire
