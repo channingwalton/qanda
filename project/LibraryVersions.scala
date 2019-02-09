@@ -2,8 +2,9 @@ import sbt._
 
 object LibraryVersions {
   object Version {
-    val cats = "1.3.1"
-    val circe = "0.9.3"
+    val cats = "1.5.0"
+    val circe = "0.11.1"
+    val circeOptics = "0.11.0"
     val kindProjector = "0.9.9"
     val scalaXml = "1.1.1"
     val java8compat = "0.9.0"
@@ -19,7 +20,7 @@ object LibraryVersions {
   val circeGeneric              = "io.circe"                %% "circe-generic"          % Version.circe
   val circeGenericExtras        = "io.circe"                %% "circe-generic-extras"   % Version.circe
   val circeParser               = "io.circe"                %% "circe-parser"           % Version.circe
-  val circeOptics               = "io.circe"                %% "circe-optics"           % Version.circe
+  val circeOptics               = "io.circe"                %% "circe-optics"           % Version.circeOptics
   val circeRefined              = "io.circe"                %% "circe-refined"          % Version.circe
   val circeJava8                = "io.circe"                %% "circe-java8"            % Version.circe
 
