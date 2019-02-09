@@ -15,7 +15,7 @@ For the more usable library see the _questionnaire_ module.
 
 # Contributions
 
-I, and several others would be very interested to see solutions. So please send pull requests, just add a new package containing
-code of course, and some documentation.
+I, and several others, would be very interested to see solutions to the general problem. So please send pull requests, just add a new package to the code in the
+_experimental_ module, and some documentation.
 
 -- Channing
