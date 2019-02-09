@@ -1,8 +1,8 @@
 # Questions and Answers
 
-At a recent project, my team produced a questionnaire customers needed to fill in to open bank accounts. 
-It supported a number of different types of questions, with validation rules and a mechanism to establish
-how _complete_ the questionnaire was.
+At a recent project a questionnaire was built for customers to open bank accounts. 
+It supported a number of different types of questions, validation rules that depended on anmswers to other questions, a mechanism to establish
+how _complete_ the questionnaire was, visibility of questions and sections of the questionnaire depending on answers to other questions.
 
 It became apparent that this is not as straightforward as it first seems _if you want a type-safe, extensible model_.
 Everyone felt certain there was a better way.
