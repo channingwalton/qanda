@@ -2,14 +2,14 @@ import sbt._
 
 object LibraryVersions {
   object Version {
-    val cats = "1.5.0"
+    val cats = "1.6.0"
     val circe = "0.11.1"
     val circeOptics = "0.11.0"
     val kindProjector = "0.9.9"
     val scalaXml = "1.1.1"
     val java8compat = "0.9.0"
     val shapeless = "2.3.3"
-    val scalaTest = "3.0.5"
+    val scalaTest = "3.0.6"
     val scalaCheck = "1.14.0"
     val scalaCheckToolbox = "0.2.5"
   }

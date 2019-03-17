@@ -5,7 +5,7 @@ addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.1")
 addSbtPlugin("com.geirsson"      % "sbt-scalafmt"    % "1.5.1")
 
 // See http://www.wartremover.org/doc/install-setup.html
-addSbtPlugin("org.wartremover"   % "sbt-wartremover" % "2.3.7")
+addSbtPlugin("org.wartremover"   % "sbt-wartremover" % "2.4.1")
 
 // See http://www.scalastyle.org/sbt.html
 // NOTE: despite already using scapegoat the recommendation is to have both, as worst case the same issue is detected twice
